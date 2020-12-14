@@ -6,6 +6,6 @@ public class Main {
 		System.out.println("Hola grupo 1");
 
 		
-		System.out.println("soy jose");
+		System.out.println("soy jose en el segunda prueba");
 	}
 }
