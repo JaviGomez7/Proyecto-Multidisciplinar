@@ -1,141 +1,260 @@
 package view;
 
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.border.EmptyBorder;
 
-import controller.Controller;
+import model.Model;
 import model.ModelView;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.GridLayout;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.awt.event.ActionEvent;
+
 public class RegisterView extends JFrame {
-	private ArrayList<JTextField> registerTexts;
-	private ArrayList<JLabel> registerLabels;
-	private JPanel registerPanel;
-	private GridLayout gridLayout;
+
+	private JPanel contentPane;
+	private JTextField lastNameText;
+	private JTextField emailText;
+	private JTextField nameText;
+	private JTextField ageText;
+	private JPasswordField passwordText, confirmPasswordText;
+	private JComboBox housesCombo;
+	private JPanel panel_1;
+	private ButtonGroup groupButtons;
+	private JRadioButton buttonTeacher, buttonAlumn;
 	private ModelView model;
-	private ArrayList<JRadioButton> registerButtons;
-	private JButton btnRegisterSend;
-	private JPasswordField registerPassword;
-	private LoginView loginView;
+	private JButton buttonSend;
+	private ArrayList<JTextField> listTextFields;
+	private ArrayList<JPasswordField> listPasswordFields;
+	private LoginView viewLogin;
 
-	public RegisterView(ModelView model,LoginView loginView) {
-		this.model = model;
-		this.loginView = loginView;
-		setTitle("Registro");
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					RegisterView frame = new RegisterView();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public RegisterView() {
+		model = new ModelView();
+		setTitle("REGISTRO");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(700, 300);
-		setSize(600, 500);
-		addRegisterPanel();
-		addRegisterComponents();
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		setLocationRelativeTo(null);
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		JLabel labelName = new JLabel("Nombre");
+		labelName.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelName);
+
+		nameText = new JTextField();
+		panel.add(nameText);
+		nameText.setColumns(10);
+		JLabel labelLastName = new JLabel("Apellidos");
+		labelLastName.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelLastName);
+		lastNameText = new JTextField();
+		panel.add(lastNameText);
+		lastNameText.setColumns(10);
+		JLabel labelEmail = new JLabel("Correo electrónico");
+		labelEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelEmail);
+		emailText = new JTextField();
+		panel.add(emailText);
+		emailText.setColumns(10);
+		JLabel labelPassword = new JLabel("Contraseña");
+		labelPassword.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelPassword);
+		passwordText = new JPasswordField();
+		panel.add(passwordText);
+		passwordText.setColumns(10);
+		JLabel labelconfirmPass = new JLabel("Confirmar contraseña");
+		labelconfirmPass.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelconfirmPass);
+		confirmPasswordText = new JPasswordField();
+		panel.add(confirmPasswordText);
+		confirmPasswordText.setColumns(10);
+		JLabel labelAge = new JLabel("Edad");
+		labelAge.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelAge);
+		ageText = new JTextField();
+		panel.add(ageText);
+		ageText.setColumns(10);
+		JLabel labelHouses = new JLabel("Casa en Hogwarts");
+		labelHouses.setHorizontalAlignment(SwingConstants.CENTER);
+		panel.add(labelHouses);
+		housesCombo = new JComboBox();
+		housesCombo.addItem("Gryffindor");
+		housesCombo.addItem("Hufflepuff");
+		housesCombo.addItem("Ravenclaw");
+		housesCombo.addItem("Slytherin");
+		panel.add(housesCombo);
+
+		panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.SOUTH);
+		panel_1.setLayout(new GridLayout(0, 3, 0, 0));
+		JLabel labelType = new JLabel("Tipo de usuario");
+		labelType.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_1.add(labelType);
+		groupButtons = new ButtonGroup();
+		groupButtons.add(buttonTeacher = new JRadioButton(model.getButtonGroupText().get(0), true));
+		buttonTeacher.setHorizontalAlignment(SwingConstants.RIGHT);
+		groupButtons.add(buttonAlumn = new JRadioButton(model.getButtonGroupText().get(1)));
+		buttonAlumn.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_1.add(buttonTeacher);
+		panel_1.add(buttonAlumn);
+		panel_1.add(new JLabel(""));
+		panel_1.add(new JLabel(""));
+		buttonSend = new JButton("Enviar");
+		buttonSend.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controlBoxes();
+				if (nameText.getText().isEmpty() || lastNameText.getText().isEmpty() || emailText.getText().isEmpty()
+						|| passwordText.getText().isEmpty() || confirmPasswordText.getText().isEmpty()
+						|| ageText.getText().isEmpty()) {
+					System.out.println("AUN NO");
+				} else {
+					int reply = JOptionPane.showConfirmDialog(null,
+							"Los datos son correctos, ¿seguro que desea registrarse?", "Registro",
+							JOptionPane.YES_NO_OPTION);
+					if (reply == JOptionPane.YES_OPTION) {
+						JOptionPane.showMessageDialog(null, "Registrado correctamente");
+					} else {
+
+					}
+				}
+			}
+		});
+		panel_1.add(buttonSend);
+
 	}
 
-	/**
-	 * Método que crea el panel para el registro del usuario y le asigna un
-	 * GridLayout.
-	 */
-	private void addRegisterPanel() {
-		registerPanel = new JPanel();
-		registerPanel.setLayout(gridLayout = new GridLayout(0, 2));
-		gridLayout.setHgap(10);
-		gridLayout.setVgap(10);
-		add(registerPanel);
-	}
-
-	/**
-	 * Método que añade las etiquetas y cajas de texto correspondientes al panel.
-	 */
-	private void addRegisterComponents() {
-		registerTexts = new ArrayList<JTextField>();
-		registerLabels = new ArrayList<JLabel>();
-		registerButtons = new ArrayList<JRadioButton>();
-		for (int i = 0; i < 3; i++) {
-			registerTexts.add(new JTextField(10));
-			registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(i)));
-			registerPanel.add(registerLabels.get(i));
-			registerPanel.add(registerTexts.get(i));
+	private void checkAge() {
+		int age = Integer.parseInt(ageText.getText());
+		if (age < 18 || age > 65) {
+			JOptionPane.showMessageDialog(null, "La edad introducida debe ser mayor de 18 y menor de 65 años");
+			ageText.setText("");
+		} else {
+			age = Integer.parseInt(ageText.getText());
 		}
-		registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(3)));
-		registerPanel.add(registerLabels.get(3));
-		registerPanel.add(registerPassword = new JPasswordField());
-		registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(4)));
-		registerPanel.add(registerLabels.get(4));
-		registerTexts.add(new JTextField(10));
-		registerPanel.add(registerTexts.get(3));
-		registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(5)));
-		registerPanel.add(registerLabels.get(5));
-		registerTexts.add(new JTextField(10));
-		registerPanel.add(registerTexts.get(4));
-		for (int i = 0; i < 2; i++) {
-			registerButtons.add(new JRadioButton());
+	}
+
+	private void checkStringAge() {
+		String age = ageText.getText();
+		if (age.matches("[0-9]*")) {
+			checkAge();
+		} else {
+			JOptionPane.showMessageDialog(null, "La edad no puede contener caracteres que no sean numéricos");
+			ageText.setText("");
 		}
-		registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(6)));
-		registerPanel.add(registerLabels.get(6));
-		registerPanel.add(registerButtons.get(0));
-		registerLabels.add(new JLabel(model.getLabelsRegisterTexts().get(7)));
-		registerPanel.add(registerLabels.get(7));
-		registerPanel.add(registerButtons.get(1));
-		btnRegisterSend = new JButton(model.getLabelsRegisterTexts().get(8));
-		btnRegisterSend.addActionListener(new Controller(this,loginView));
-		registerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		registerPanel.add(btnRegisterSend);
 	}
 
-	public JPasswordField getRegisterPassword() {
-		return registerPassword;
+	private void checkEmail() {
+		String email = emailText.getText();
+		if (!checkMail(email)) {
+			JOptionPane.showMessageDialog(null, "El correo es incorrecto");
+			emailText.setText("");
+		}
 	}
 
-	public void setRegisterPassword(JPasswordField registerPassword) {
-		this.registerPassword = registerPassword;
+	private void containNumbers(String text) {
+		Pattern p = Pattern.compile("([0-9])");
+		Matcher m = p.matcher(text);
+		if (m.find()) {
+			JOptionPane.showMessageDialog(null, "Los campos Nombre y Apellidos no pueden contener números");
+			nameText.setText("");
+			lastNameText.setText("");
+		} else {
+		}
 	}
 
-	public JButton getBtnRegisterSend() {
-		return btnRegisterSend;
+	public boolean checkMail(String mail) {
+		// Patrón para validar el email
+		Pattern pattern = Pattern.compile(
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		// El email a validar
+
+		Matcher mather = pattern.matcher(mail);
+
+		if (!mather.find()) {
+			return false;
+		}
+
+		else {
+			return true;
+		}
 	}
 
-	public void setBtnRegisterSend(JButton btnRegisterSend) {
-		this.btnRegisterSend = btnRegisterSend;
+	private void controlBoxes() {
+		if (nameText.getText().isEmpty() || lastNameText.getText().isEmpty() || emailText.getText().isEmpty()
+				|| passwordText.getText().isEmpty() || confirmPasswordText.getText().isEmpty()
+				|| ageText.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Debes rellenar todos los campos para completar el registro");
+		} else {
+			// TODOS LOS CAMPOS ESTÁN RELLENADOS, SE PASA A VALIDAR LOS DATOS.
+			containNumbers(nameText.getText());
+			containNumbers(lastNameText.getText());
+			checkEmail();
+			checkSamePasswords();
+			checkStringAge();
+		}
 	}
 
-	public ArrayList<JTextField> getRegisterTexts() {
-		return registerTexts;
+	private void checkSamePasswords() {
+		viewLogin = new LoginView();
+		String password = new String(passwordText.getPassword());
+		String confirmPassword = new String(confirmPasswordText.getPassword());
+		if (password.length() > 8 && password.length() < 64 && viewLogin.checkSpace(password) == true
+				&& confirmPassword.length() > 8 && confirmPassword.length() < 64
+				&& viewLogin.checkSpace(confirmPassword) == true) {
+			if (password.equals(confirmPassword)) {
+				// CONTRASEÑA CORRECTA
+				password = passwordText.getPassword().toString();
+				confirmPassword = confirmPasswordText.getPassword().toString();
+			} else {
+				JOptionPane.showMessageDialog(null, "Las contraseñas introducidas no coinciden");
+				passwordText.setText("");
+				confirmPasswordText.setText("");
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Contraseña no válida");
+			passwordText.setText("");
+			confirmPasswordText.setText("");
+		}
 	}
-
-	public void setRegisterTexts(ArrayList<JTextField> registerTexts) {
-		this.registerTexts = registerTexts;
-	}
-
-	public ArrayList<JLabel> getRegisterLabels() {
-		return registerLabels;
-	}
-
-	public void setRegisterLabels(ArrayList<JLabel> registerLabels) {
-		this.registerLabels = registerLabels;
-	}
-
-	public JPanel getRegisterPanel() {
-		return registerPanel;
-	}
-
-	public void setRegisterPanel(JPanel registerPanel) {
-		this.registerPanel = registerPanel;
-	}
-
-	public GridLayout getGridLayout() {
-		return gridLayout;
-	}
-
-	public void setGridLayout(GridLayout gridLayout) {
-		this.gridLayout = gridLayout;
-	}
-
-	public ArrayList<JRadioButton> getRegisterButtons() {
-		return registerButtons;
-	}
-
-	public void setRegisterButtons(ArrayList<JRadioButton> registerButtons) {
-		this.registerButtons = registerButtons;
-	}
-
 }

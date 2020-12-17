@@ -1,165 +1,207 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-import controller.Controller;
-import model.ModelView;
+import model.Model;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JPasswordField;
+import java.awt.Toolkit;
+import javax.swing.BoxLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginView extends JFrame {
-	private JTextField textLogin;
-	private JPasswordField passwordLogin;
-	private ArrayList<JLabel> labelsLogin;
-	private JPanel containerPanel;
-	private JButton buttonLogin;
-	private JLabel labelSignUp;
-	private ModelView model;
 
-	public LoginView(ModelView model) {
-		setTitle("Universidad Howards");
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.model = model;
-		createWindow();
+	private JPanel contentPane;
+	private JPasswordField boxPassword;
+	private JTextField boxMail;
+	private RegisterView registerView;
+	private static LoginView frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frame = new LoginView();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
-	 * Método que asigna características JFrame a la interfaz.
+	 * Create the frame.
 	 */
-	private void createWindow() {
-		setLocation(800, 400);
-		addPanel();
-		addTextsLabels();
-		addButtonLogin();
-		addLabelSignUp();
-		makeVisible();
-		setSize(300, 300);
+	public LoginView() {
+
+		setType(Type.UTILITY);
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage("C:\\Users\\salva\\OneDrive\\Im\u00E1genes\\Saved Pictures\\Hogwarts-logo.png"));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Universidad Hogwarts");
+		setBounds(450, 180, 346, 363);
+		contentPane = new JPanel();
+		contentPane.setForeground(Color.ORANGE);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
+
+		JPanel panel = new JPanel();
+		contentPane.add(panel);
+		panel.setLayout(null);
+
+		JLabel lbRegistry = new JLabel("Registrarse");
+		lbRegistry.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				registerView = new RegisterView();
+				registerView.setVisible(true);
+				frame.dispose();
+
+			}
+		});
+		lbRegistry.setForeground(new Color(255, 255, 255));
+		lbRegistry.setBounds(127, 264, 63, 14);
+		panel.add(lbRegistry);
+
+		/**
+		 * Evento de Botón
+		 */
+		JButton btnNewButton = new JButton("CONFIRMAR");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mail = boxMail.getText();
+				String password = new String(boxPassword.getPassword());
+				if (!checkMail(mail)) {
+					JOptionPane.showMessageDialog(null, "El correo es incorrecto");
+				}
+				if (password.length() > 8 && password.length() < 64 && checkSpace(password) == true) {
+					System.out.println("Datos correctos");
+				} else {
+					JOptionPane.showMessageDialog(null, "El password es incorrecto");
+				}
+			}
+		});
+		btnNewButton.setBounds(106, 223, 105, 20);
+		panel.add(btnNewButton);
+
+		boxPassword = new JPasswordField();
+		boxPassword.setBounds(83, 175, 150, 20);
+		panel.add(boxPassword);
+
+		JLabel lbPassword = new JLabel("CONTRASE\u00D1A");
+		lbPassword.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lbPassword.setForeground(new Color(255, 255, 255));
+		lbPassword.setBounds(96, 132, 124, 32);
+		panel.add(lbPassword);
+
+		boxMail = new JTextField();
+		boxMail.setBackground(Color.WHITE);
+		boxMail.setBounds(83, 101, 150, 20);
+		panel.add(boxMail);
+
+		JLabel lblEmail = new JLabel("EMAIL");
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblEmail.setForeground(Color.WHITE);
+		lblEmail.setBounds(127, 56, 63, 22);
+		panel.add(lblEmail);
+
+		JLabel lblLogin = new JLabel("LOGIN");
+		lblLogin.setForeground(Color.WHITE);
+		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogin.setBackground(Color.WHITE);
+		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 33));
+		lblLogin.setBounds(80, 0, 156, 45);
+		panel.add(lblLogin);
+
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setForeground(Color.MAGENTA);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewLabel.setIcon(new ImageIcon(
+				"C:\\Users\\salva\\OneDrive\\Im\u00E1genes\\Saved Pictures\\donde-se-filmo-hogwarts.jpg"));
+		lblNewLabel.setBounds(-242, -70, 562, 384);
+		panel.add(lblNewLabel);
 	}
 
 	/**
-	 * Método que inicializa el panel y le asigna sus propiedades
+	 * Método que verifica el email
+	 * 
+	 * @param mail String
+	 * @return true or false
 	 */
-	private void addPanel() {
-		containerPanel = new JPanel();
-		containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
-		containerPanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-		add(containerPanel);
+	public boolean checkMail(String mail) {
+		// Patrón para validar el email
+		Pattern pattern = Pattern.compile(
+				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+		// El email a validar
+
+		Matcher mather = pattern.matcher(mail);
+
+		if (!mather.find()) {
+			return false;
+		}
+
+		else {
+			return true;
+		}
 	}
 
 	/**
-	 * Método que inicializa las cajas de texto y las etiquetas y les asigna sus
-	 * propiedades.
+	 * Método que verifica si hay espacios en el password
+	 * 
+	 * @param password contraseña introducida por el usuario
+	 * @return true or false
 	 */
-	private void addTextsLabels() {
-		labelsLogin = new ArrayList<JLabel>();
-		for (int i = 0; i < model.getLabelsTexts().size(); i++) {
-			labelsLogin.add(new JLabel());
-			labelsLogin.get(i).setText(model.getLabelsTexts().get(i));
-			labelsLogin.get(i).setAlignmentX(CENTER_ALIGNMENT);
-		}	
-			textLogin = new JTextField();
-			textLogin.setAlignmentX(CENTER_ALIGNMENT);
-		containerPanel.add(labelsLogin.get(0));
-		containerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		containerPanel.add(textLogin);
-		containerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		containerPanel.add(labelsLogin.get(1));
-		containerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-		passwordLogin = new JPasswordField();
-		containerPanel.add(passwordLogin);
+	public boolean checkSpace(String password) {
+
+		byte number = 0;
+		for (char c : password.toCharArray()) {
+			if (c == ' ') {
+				number++;
+			}
+		}
+		if (number > 0) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	/**
-	 * Método que inicializa el botón de iniciar sesión y le asigna propiedades.
-	 */
-	private void addButtonLogin() {
-		buttonLogin = new JButton(model.getBtnLoginText());
-		buttonLogin.setAlignmentX(CENTER_ALIGNMENT);
-		containerPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-		RegisterView registerView = new RegisterView(model,this);
-		buttonLogin.addActionListener(new Controller(registerView, this));
-		containerPanel.add(buttonLogin);
+	// Getters y Setters
+	public JTextField getBoxMail() {
+		return boxMail;
 	}
 
-	/**
-	 * Método que inicializa la etiqueta de registrarse y le asigna propiedades
-	 */
-	private void addLabelSignUp() {
-		labelSignUp = new JLabel(model.getSignUpText());
-		containerPanel.add(Box.createRigidArea(new Dimension(0, 35)));
-		labelSignUp.setAlignmentX(CENTER_ALIGNMENT);
-		labelSignUp.setForeground(Color.BLUE.darker());
-		containerPanel.add(labelSignUp);
+	public void setBoxMail(JTextField boxMail) {
+		this.boxMail = boxMail;
 	}
 
-	/**
-	 * Hace la ventana visible y la posiciona en el centro de la pantalla
-	 */
-	public void makeVisible() {
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		pack();
-		setResizable(false);
-		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-		setVisible(true);
+	public JPasswordField getBoxPassword() {
+		return boxPassword;
 	}
 
-	public ArrayList<JLabel> getLabelsLogin() {
-		return labelsLogin;
+	public void setBoxPassword(JPasswordField boxPassword) {
+		this.boxPassword = boxPassword;
 	}
-
-	public void setLabelsLogin(ArrayList<JLabel> labelsLogin) {
-		this.labelsLogin = labelsLogin;
-	}
-
-	public JPanel getContainerPanel() {
-		return containerPanel;
-	}
-
-	public void setContainerPanel(JPanel containerPanel) {
-		this.containerPanel = containerPanel;
-	}
-
-	public JButton getButtonLogin() {
-		return buttonLogin;
-	}
-
-	public void setButtonLogin(JButton buttonLogin) {
-		this.buttonLogin = buttonLogin;
-	}
-
-	public JLabel getLabelSignUp() {
-		return labelSignUp;
-	}
-
-	public void setLabelSignUp(JLabel labelSignUp) {
-		this.labelSignUp = labelSignUp;
-	}
-
-	public JTextField getTextLogin() {
-		return textLogin;
-	}
-
-	public void setTextLogin(JTextField textLogin) {
-		this.textLogin = textLogin;
-	}
-
-	public JPasswordField getPasswordLogin() {
-		return passwordLogin;
-	}
-
-	public void setPasswordLogin(JPasswordField passwordLogin) {
-		this.passwordLogin = passwordLogin;
-	}
-
 }
