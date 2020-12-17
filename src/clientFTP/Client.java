@@ -3,14 +3,13 @@ package clientFTP;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
-
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
 
-public class ClientFTP {
+public class Client {
 
 	public static void main(String args[]) {
 		String server = "localhost";
@@ -29,8 +28,7 @@ public class ClientFTP {
         try {
         	ftpClient.connect(server, port);
         	System.out.println("Conexion establecida");
-        	
-        	
+        	Methods methods = new Methods(ftpClient);  
             showServerReply(ftpClient);
             int replyCode = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(replyCode)) {
