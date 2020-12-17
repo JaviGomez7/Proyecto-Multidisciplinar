@@ -33,6 +33,10 @@ public class ServerLogin {
 		try (ServerSocket serverSocket = new ServerSocket(port)) {
 			 
             System.out.println("Servidor escuchando en el puerto " + port);
+            
+            //Pienso que aqui hay que lanzar la ventana ventana a la espera de clientes
+            
+            
  
             while (true) {
                 Socket socket = serverSocket.accept();
