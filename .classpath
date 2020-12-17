@@ -8,5 +8,29 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Profesor/git/Proyecto-Multidisciplinar/librerias/commons-net-3.3.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Jose Arias/git/Proyecto-Multidisciplinar/librerias/commons-net-3.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/aopalliance-1.0 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/commons-net-3.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/commons-net-3.7.2-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/commons-net-examples-3.7.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/ftplet-api-1.1.1 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/ftplet-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/ftpserver-core-1.1.1 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/ftpserver-core-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/jcl-over-slf4j-1.7.21 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/jcl-over-slf4j-1.7.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/log4j-1.2.17 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/mina-core-2.0.16 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/mina-core-2.0.16.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/slf4j-api-1.7.21 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/slf4j-api-1.7.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/slf4j-log4j12-1.7.21 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/slf4j-log4j12-1.7.21.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/spring-beans-2.5.5 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/spring-beans-2.5.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/spring-context-2.5.5 - copia.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/spring-context-2.5.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/salva/OneDrive/Escritorio/PROYECTO/Eclipse/servidorFTP/spring-core-2.5.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

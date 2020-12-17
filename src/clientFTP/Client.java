@@ -3,7 +3,6 @@ package clientFTP;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
-
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -29,7 +28,7 @@ public class Client {
         try {
         	ftpClient.connect(server, port);
         	System.out.println("Conexion establecida");
-        	
+        	Methods methods = new Methods(ftpClient);
             showServerReply(ftpClient);
             int replyCode = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(replyCode)) {
