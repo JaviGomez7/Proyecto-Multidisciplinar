@@ -1,7 +1,13 @@
 package clientFTP;
 
+<<<<<<< HEAD
 import java.io.BufferedOutputStream;
 import java.io.File;
+=======
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+>>>>>>> branch 'ClientFTP' of https://github.com/JaviGomez7/Proyecto-Multidisciplinar.git
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -103,6 +109,7 @@ public class Methods {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Método para cambiar de directorio
 	 * @param client cliente del servidor FTP
 	 * @param directory dirección nueva a la que queremos cambiar
@@ -226,4 +233,131 @@ public class Methods {
 		
 	}
 
+=======
+	 * Método para renombrar un archivo o directorio, recibe dos string, uno con el
+	 * nombre viejo y otro con el nuevo.
+	 * 
+	 * @param oldName
+	 * @param newName
+	 */
+	public void rename(String oldName, String newName) {
+		// renaming file
+
+		boolean success;
+		try {
+			success = ftpClient.rename(oldName, newName);
+
+			if (success) {
+				System.out.println(oldName + " was successfully renamed to: " + newName);
+			} else {
+				System.out.println("Failed to rename: " + oldName);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+//		try {
+//			ftpClient.logout();
+//			ftpClient.disconnect();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+	}
+
+	/**
+	 * Método para borrar un fichero, recibe el path donde se encuentra el archivo.
+	 * 
+	 * @param fileToDelete
+	 */
+
+	public void deleteFile(String pathFileToDelete) {
+
+		boolean deleted;
+		try {
+			deleted = ftpClient.deleteFile(pathFileToDelete);
+
+			if (deleted) {
+				System.out.println("The file was deleted successfully.");
+			} else {
+				System.out.println("Could not delete the  file, it may not exist.");
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		try {
+//		ftpClient.logout();
+//		ftpClient.disconnect();
+//	} catch (IOException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
+
+	}
+
+	
+	/**
+	 * 
+	 * Método para descargar un archivo del servidor
+	 * @param pathServer
+	 * @param nameFile
+	 * @param pathUser
+	 */
+	public void FTPDownloadFile(String pathServer,String nameFile,String pathUser) {
+
+		
+		try {
+			ftpClient.changeWorkingDirectory(pathServer);
+
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(pathUser));
+			if (ftpClient.retrieveFile(nameFile, out)) {
+				System.out.println("Archivo bajado  correctamente...  ");
+			} else {
+				System.out.println("No  se ha podido descargar...  ");
+				out.close();
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+	}
+	
+	
+	/**
+	 *  Método para subir un archivo al servidor.
+	 * @param pathServer
+	 * @param nameFile
+	 * @param pathUser
+	 */
+	public void makeUpLoadFile(String pathServer,String nameFile,String pathUser) {
+		
+		
+		try {
+			ftpClient.changeWorkingDirectory(pathServer);
+			ftpClient. setFileType (FTP . BINARY_FILE_TYPE) ;
+			//stream de entrada con el fichero a subir
+			BufferedInputStream in = new BufferedInputStream(
+			new FileInputStream(pathUser+nameFile)) ;   		// !ojo que hay path por medio y pueden petar las barras o lo que sea.
+			ftpClient.storeFile(nameFile, in);
+			
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+			}
+		
+		
+	}
+	
+	
+	
+}
+>>>>>>> branch 'ClientFTP' of https://github.com/JaviGomez7/Proyecto-Multidisciplinar.git
 	
