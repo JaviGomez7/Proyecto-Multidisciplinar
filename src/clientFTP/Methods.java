@@ -1,13 +1,12 @@
 package clientFTP;
 
-<<<<<<< HEAD
+
 import java.io.BufferedOutputStream;
 import java.io.File;
-=======
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
->>>>>>> branch 'ClientFTP' of https://github.com/JaviGomez7/Proyecto-Multidisciplinar.git
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -109,7 +108,7 @@ public class Methods {
 	}
 	
 	/**
-<<<<<<< HEAD
+
 	 * Método para cambiar de directorio
 	 * @param client cliente del servidor FTP
 	 * @param directory dirección nueva a la que queremos cambiar
@@ -231,9 +230,9 @@ public class Methods {
 	    
 	}
 		
-	}
 
-=======
+
+/**
 	 * Método para renombrar un archivo o directorio, recibe dos string, uno con el
 	 * nombre viejo y otro con el nuevo.
 	 * 
