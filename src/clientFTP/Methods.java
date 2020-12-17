@@ -1,11 +1,14 @@
 package clientFTP;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
@@ -168,13 +171,21 @@ public class Methods {
 
 	}
 
-	public void FTPDownloadFile(String pathServer,String nameFile,String ourPath) {
+	
+	/**
+	 * 
+	 * Método para descargar un archivo del servidor
+	 * @param pathServer
+	 * @param nameFile
+	 * @param pathUser
+	 */
+	public void FTPDownloadFile(String pathServer,String nameFile,String pathUser) {
 
-		String direc = "/htdocs/NUEVODIREC/NUEVO";
+		
 		try {
-			ftpClient.changeWorkingDirectory(direc);
+			ftpClient.changeWorkingDirectory(pathServer);
 
-			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(ourPath));
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(pathUser));
 			if (ftpClient.retrieveFile(nameFile, out)) {
 				System.out.println("Archivo bajado  correctamente...  ");
 			} else {
@@ -186,8 +197,37 @@ public class Methods {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// stream de salida para recibir el fichero•descargado
+		
 
 	}
+	
+	
+	/**
+	 *  Método para subir un archivo al servidor.
+	 * @param pathServer
+	 * @param nameFile
+	 * @param pathUser
+	 */
+	public void makeUpLoadFile(String pathServer,String nameFile,String pathUser) {
+		
+		
+		try {
+			ftpClient.changeWorkingDirectory(pathServer);
+			ftpClient. setFileType (FTP . BINARY_FILE_TYPE) ;
+			//stream de entrada con el fichero a subir
+			BufferedInputStream in = new BufferedInputStream(
+			new FileInputStream(pathUser+nameFile)) ;   		// !ojo que hay path por medio y pueden petar las barras o lo que sea.
+			ftpClient.storeFile(nameFile, in);
+			
+		}
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+			}
+		
+		
+	}
+	
+	
+	
 }
 	
